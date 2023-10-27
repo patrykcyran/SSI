@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import TablicaKanban from './TablicaKanban.js'
+import TablicaKanbanKontener from './TablicaKanbanKontener.js'
 
 let listaKart = [
     {   id: 1,
@@ -31,6 +31,6 @@ let listaKart = [
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <TablicaKanban karty={listaKart}/>
+      <TablicaKanbanKontener />
   </React.StrictMode>
 );

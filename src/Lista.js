@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import Karta from './Karta';
 class Lista extends Component {
     render() {
@@ -6,9 +7,11 @@ class Lista extends Component {
             return <Karta key={karta.id}
                           id={karta.id}
                           tytul={karta.tytul}
+                          status={karta.status}
                           opis={karta.opis}
                           kolor={karta.kolor}
-                          zadania={karta.zadania}/>
+                          zadania={karta.zadania}
+                          funkcjeZwrotne={this.props.funkcjeZwrotne} />
         });
         return (
             <div className="list">
@@ -18,4 +21,12 @@ class Lista extends Component {
         )
     }
 }
+
+Lista.propTypes = {
+    id: PropTypes.string.isRequired,
+    tytul: PropTypes.string.isRequired,
+    kart: PropTypes.arrayOf(PropTypes.object).isRequired,
+    funkcjeZwrotne: PropTypes.object
+}
+
 export default Lista;

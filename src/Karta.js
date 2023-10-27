@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import ListaZadan from './ListaZadan';
 class Karta extends Component {
     constructor() {
@@ -17,7 +18,9 @@ class Karta extends Component {
             szczegolyKarty = (
                 <div className="card__details">
                     {this.props.opis}
-                    <ListaZadan idKarty={this.props.id} zadania={this.props.zadania} />
+                    <ListaZadan idKarty={this.props.id}
+                                zadania={this.props.zadania}
+                                funkcjeZwrotne={this.props.funkcjeZwrotne} />
                 </div>
             )
         }
@@ -32,6 +35,23 @@ class Karta extends Component {
             backgroundColor: this.props.kolor
         }
 
+
+        let strzalka;
+        let prawo = <button onClick={() => this.props.funkcjeZwrotne.wPrawo(null, this.props.id, this.props.status)}>></button>;
+        let lewo = <button onClick={() => this.props.funkcjeZwrotne.wPrawo(null, this.props.id, this.props.status)}>lewo</button>;
+        if (this.props.status === 'todo') {
+            strzalka = prawo;
+        }
+        if (this.props.status === 'in-progress') {
+            strzalka = (
+                <div>
+                    {lewo}
+                    {prawo}
+                </div>
+            )
+        }
+
+
         return (
             <div className="card">
                 <div style={kolorowyPasek} />
@@ -41,8 +61,31 @@ class Karta extends Component {
                     <span dangerouslySetInnerHTML={{__html:this.props.tytul}}/>
                     </div>
                 {szczegolyKarty}
+                {strzalka}
             </div>
         );
     }
 }
+
+let sprawdzamyTytul = (props, propName, componentName) => {
+    if (props[propName]) {
+        let wartosc = props[propName];
+        if (typeof wartosc !== 'string' || wartosc.length > 50) {
+            return new Error(
+                `Wartosc ${propName} w ${componentName} jest dłuższa iż 50 znaków`
+            )
+        }
+    }
+}
+
+Karta.propTypes = {
+    id: PropTypes.number.isRequired,
+    tytul: sprawdzamyTytul,
+    opis: PropTypes.string,
+    status: PropTypes.string,
+    kolor: PropTypes.string,
+    zadania: PropTypes.arrayOf(PropTypes.object),
+    funkcjeZwrotne: PropTypes.object
+}
+
 export default Karta;
