@@ -37,10 +37,14 @@ class Karta extends Component {
 
 
         let strzalka;
-        let prawo = <button onClick={() => this.props.funkcjeZwrotne.wPrawo(null, this.props.id, this.props.status)}>></button>;
-        let lewo = <button onClick={() => this.props.funkcjeZwrotne.wPrawo(null, this.props.id, this.props.status)}>lewo</button>;
+        let prawo = <button onClick={() => this.props.funkcjeZwrotne.wPrawo(this.props.id, this.props.status)}>🠖</button>;
+        let lewo = <button onClick={() => this.props.funkcjeZwrotne.wLewo(this.props.id, this.props.status)}>🠔</button>;
         if (this.props.status === 'todo') {
-            strzalka = prawo;
+            strzalka = (
+                <div>
+                    {prawo}
+                </div>
+            )
         }
         if (this.props.status === 'in-progress') {
             strzalka = (
@@ -50,7 +54,13 @@ class Karta extends Component {
                 </div>
             )
         }
-
+        if (this.props.status === 'done') {
+            strzalka = (
+                <div>
+                    {lewo}
+                </div>
+            )
+        }
 
         return (
             <div className="card">

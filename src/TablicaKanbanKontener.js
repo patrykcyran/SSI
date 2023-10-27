@@ -55,7 +55,6 @@ class TablicaKanbanKontener extends Component {
         console.log(`zmien zadanie: idKarty: '${idKarty}', idZadania: '${idZadania}', indexZadania: '${indexZadania}`);
 
         let indexKarty = this.state.karty.findIndex((karta) => karta.id === idKarty);
-
         let nowaWartoscZrobione;
 
         let nowyStan = update(this.state.karty, {
@@ -77,9 +76,55 @@ class TablicaKanbanKontener extends Component {
     }
 
     przesunWPrawo(idKarty, status) {
-        console.log(`Przesun w prawo: ${idKarty} ${status}`)
+        console.log(`Przesun w prawo: ${idKarty} ${status}`);
 
-        this.setState(this.state);
+        let indexKarty = this.state.karty.findIndex((karta) => karta.id === idKarty);
+
+        let nowyStan;
+        let nowyStatus;
+
+        if (status === 'todo') {
+            nowyStatus = 'in-progress';
+        }
+        else if (status === 'in-progress') {
+            nowyStatus = 'done';
+        }
+
+        nowyStan = update(this.state.karty, {
+            [indexKarty]: {
+                status: { $set: nowyStatus}
+            }
+        });
+
+        this.setState({karty: nowyStan});
+
+        console.log(this.state.karty);
+    }
+
+    przesunWLewo(idKarty, status) {
+        console.log(`Przesun w lewo: ${idKarty} ${status}`);
+
+        let indexKarty = this.state.karty.findIndex((karta) => karta.id === idKarty);
+
+        let nowyStan;
+        let nowyStatus;
+
+        if (status === 'done') {
+            nowyStatus = 'in-progress';
+        }
+        else if (status === 'in-progress') {
+            nowyStatus = 'todo';
+        }
+
+        nowyStan = update(this.state.karty, {
+            [indexKarty]: {
+                status: { $set: nowyStatus}
+            }
+        });
+
+        this.setState({karty: nowyStan});
+
+        console.log(this.state.karty);
     }
 
     render() {
@@ -89,7 +134,8 @@ class TablicaKanbanKontener extends Component {
                 dodaj: this.dodajZadanie.bind(this),
                 usun: this.usunZadanie.bind(this),
                 zmien: this.zmienZadanie.bind(this),
-                wPrawo: this.przesunWPrawo.bind(this)}}
+                wPrawo: this.przesunWPrawo.bind(this),
+                wLewo: this.przesunWLewo.bind(this)}}
                 />
         );
     }
